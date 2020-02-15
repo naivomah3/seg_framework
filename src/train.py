@@ -93,7 +93,7 @@ model.compile(optimizer, focal_dice_loss, metrics)
 # ----
 model.summary()
 # CALLBACKS
-model_name = f"{P_NAME}_{MODEL}_{IN_HEIGHT}_{IN_WIDTH}_{BACKBONE}_{datetime.now().strftime('%d_%m_%y_%H_%M_%p')}"
+model_name = f"{P_NAME}_{MODEL}_{IN_HEIGHT}_{IN_WIDTH}_{BACKBONE}_{datetime.now().strftime('%d_%m_%y-%H_%M_%p')}"
 callbacks = get_callbacks(model_path=MODEL_PATH, model_name=model_name)
 
 # TRAIN
