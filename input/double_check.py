@@ -52,6 +52,12 @@ from tqdm import tqdm
 #     else:
 #         raise Exception("file doesn't exist")
 
+with open("../labels.txt", 'r') as file:
+    CLASSES = list(file)
+    print(f"{len(CLASSES)}")
+if not CLASSES:
+    raise Exception(f"Unable to load label file {CLASSES}")
+
 print("Everything is done :)")
 
 

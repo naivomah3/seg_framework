@@ -53,7 +53,7 @@ test_dataset = DataCreator(
 test_dataloader = DataGenerator(test_dataset, batch_size=1, shuffle=False)
 
 # SET PARAMS
-n_classes = 1 if len(CLASSES) == 1 else (len(CLASSES) + 1)  # case for binary and multiclass segmentation
+n_classes = 1 if len(CLASSES) == 1 else (len(CLASSES) + 1)  # case for binary and multi label segmentation
 activation = 'sigmoid' if n_classes == 1 else 'softmax'
 # CREATE MODEL & LOAD WEIGHTS --- freeze only if found your labels within 'imagenet'
 model = sm.Unet(backbone_name=BACKBONE,
