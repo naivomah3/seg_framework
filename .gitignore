@@ -42,3 +42,4 @@ models/
 *.h5
 *.pkl
 *.pth
+*.tar.gz
