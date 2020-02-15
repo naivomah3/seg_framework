@@ -1,5 +1,5 @@
 import os
-from datetime import date
+from datetime import datetime
 import keras
 import segmentation_models as sm
 
@@ -40,7 +40,8 @@ PLOT_TRAIN = True if os.environ.get("PLOT_TRAIN") == 'True' else False
 # load file containing list of classes
 LABELS_FILE = os.environ.get("LABELS_FILE")
 with open(LABELS_FILE, 'r') as file:
-    CLASSES = list(file)
+    CLASSES = list(file.read().splitlines())
+    print(CLASSES)
 if not CLASSES:
     raise Exception(f"Unable to load label file {CLASSES}")
 
@@ -82,17 +83,17 @@ train_set_gen = DataGenerator(train_set_create, batch_size=TRAIN_BATCH_SIZE, shu
 valid_set_gen = DataGenerator(valid_set_create, batch_size=VAL_BATCH_SIZE, shuffle=False)
 
 # OPTIMIZER
-optimizer = keras.optimizers.Adam(LR)
+optimizer = keras.optimizers.Adam()
 # LOSSES
-focal_dice_loss = sm.losses.DiceLoss() if n_classes == 1 else sm.losses.categorical_focal_dice_loss
+focal_dice_loss = sm.losses.DiceLoss() # if n_classes == 1 else sm.losses.DiceLoss()
 # METRICS
-metrics = [sm.metrics.IOUScore(), sm.metrics.FScore(), ]
+metrics = [sm.metrics.IOUScore(), sm.metrics.FScore(), sm.metrics.Recall(), sm.metrics.Precision()]
 # COMPILE
 model.compile(optimizer, focal_dice_loss, metrics)
 # ----
 model.summary()
 # CALLBACKS
-model_name = f"{P_NAME}_{MODEL}_{IN_HEIGHT}_{IN_WIDTH}_{BACKBONE}_{date.today().strftime('%d_%m_%y_%H_%M_%p')}"
+model_name = f"{P_NAME}_{MODEL}_{IN_HEIGHT}_{IN_WIDTH}_{BACKBONE}_{datetime.now().strftime('%d_%m_%y_%H_%M_%p')}"
 callbacks = get_callbacks(model_path=MODEL_PATH, model_name=model_name)
 
 # TRAIN
